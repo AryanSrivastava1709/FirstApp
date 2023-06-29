@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         btn.setOnClickListener {
             val username = etUsername.text.toString()
             val password = etPassword.text.toString()
-
             if (username.isBlank() || username.isEmpty()) {
                 usernameLayout.error = "Please enter a valid username"
             }
