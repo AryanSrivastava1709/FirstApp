@@ -6,13 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/gradient">
 
     <TextView
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="LOGIN"
+        android:textColor="@color/black"
         android:fontFamily="serif"
         android:textAllCaps="true"
         android:letterSpacing="0.2"
@@ -35,6 +37,7 @@
         app:layout_constraintTop_toBottomOf="@id/login">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:textColor="@color/black"
             android:id="@+id/TIETUsername"
             android:hint="Enter Username"
             android:layout_width="match_parent"
@@ -54,6 +57,7 @@
         app:layout_constraintTop_toBottomOf="@id/username">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:textColor="@color/black"
             android:id="@+id/TIETPassword"
             android:inputType="textPassword"
             android:hint="Enter Password"
@@ -73,5 +77,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/login" />
+
+    <TextView
+        android:id="@+id/tvFaq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:text="Issue in Login?"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,8 +1,11 @@
 package com.example.firstapp
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -19,6 +22,8 @@ class MainActivity : AppCompatActivity() {
         val usernameLayout = findViewById<TextInputLayout>(R.id.username)
         val passwordLayout = findViewById<TextInputLayout>(R.id.password)
 
+        val GoToFAQ: TextView= findViewById(R.id.tvFaq)
+
         btn.setOnClickListener {
             val username = etUsername.text.toString()
             val password = etPassword.text.toString()
@@ -31,7 +36,53 @@ class MainActivity : AppCompatActivity() {
 
             if (!(username.isEmpty() || username.isBlank() || password.isEmpty())) {
                 Toast.makeText(this@MainActivity, "Login Successful", Toast.LENGTH_SHORT).show()
+                val intent=Intent(this@MainActivity,WelcomeActivity::class.java)
+                //intent.putextra(Key,Value)
+                intent.putExtra("USERNAME",username)
+                startActivity(intent)
             }
         }
+
+        GoToFAQ.setOnClickListener{
+            var url= "www.geeksgorgeeks.org"
+            var uri=Uri.parse(url)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        //Display a toast that user has exit the activity.  
+        super.onDestroy()
     }
 }
+
+//Lifecycle of an activity
+
+/*
+* Created
+* Started
+* Resumed
+*
+* ------------------
+*
+* Paused
+* Stopped
+* Destroyed
+* */
+
+
