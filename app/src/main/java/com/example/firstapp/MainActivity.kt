@@ -27,25 +27,33 @@ class MainActivity : AppCompatActivity() {
         btn.setOnClickListener {
             val username = etUsername.text.toString()
             val password = etPassword.text.toString()
+            val bundle = Bundle()
+            bundle.putString("USER_KEY",username)
+            bundle.putString("PASS_KEY",password)
+
             if (username.isBlank() || username.isEmpty()) {
                 usernameLayout.error = "Please enter a valid username"
             }
             if (password.isEmpty()) {
                 passwordLayout.error = "Please enter a valid password"
             }
-
-            if (!(username.isEmpty() || username.isBlank() || password.isEmpty())) {
+            if(password=="000"){
                 Toast.makeText(this@MainActivity, "Login Successful", Toast.LENGTH_SHORT).show()
+                //intent.putExtra(Key,Value)
+                //intent.putExtra("USERNAME",username)
                 val intent=Intent(this@MainActivity,WelcomeActivity::class.java)
-                //intent.putextra(Key,Value)
-                intent.putExtra("USERNAME",username)
+                intent.putExtras(bundle)
                 startActivity(intent)
             }
+            else{
+                Toast.makeText(this@MainActivity,"Incorrect Password",Toast.LENGTH_SHORT).show()
+            }
         }
-
         GoToFAQ.setOnClickListener{
-            var url= "www.geeksgorgeeks.org"
+            var url= "https://www.geeksforgeeks.org"
             var uri=Uri.parse(url)
+            val implicitIntent=Intent(Intent.ACTION_VIEW,uri)
+            startActivity(implicitIntent)
         }
     }
 

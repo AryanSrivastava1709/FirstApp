@@ -3,6 +3,7 @@ package com.example.firstapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import android.widget.Toast
 
 class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -13,7 +14,8 @@ class WelcomeActivity : AppCompatActivity() {
         //fetch the textview from the xml file
 
         val tvWelcome=findViewById<TextView>(R.id.tvWelcome)
-        val username = intent.getStringExtra("USERNAME")
+        val username = intent.extras?.getString("USER_KEY")
+        val password = intent.extras?.getString("PASS_KEY")
         tvWelcome.text="Welcome $username"
     }
 }
