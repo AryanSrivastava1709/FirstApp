@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         val usernameLayout = findViewById<TextInputLayout>(R.id.username)
         val passwordLayout = findViewById<TextInputLayout>(R.id.password)
 
-        val GoToFAQ: TextView= findViewById(R.id.tvFaq)
+        val goToFAQ: TextView= findViewById(R.id.tvFaq)
 
         btn.setOnClickListener {
             val username = etUsername.text.toString()
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity,"Incorrect Password",Toast.LENGTH_SHORT).show()
             }
         }
-        GoToFAQ.setOnClickListener{
+        goToFAQ.setOnClickListener{
             var url= "https://www.geeksforgeeks.org"
             var uri=Uri.parse(url)
             val implicitIntent=Intent(Intent.ACTION_VIEW,uri)
