@@ -4,52 +4,69 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.example.firstapp.databinding.ActivityMainBinding
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var auth: FirebaseAuth
+    private lateinit var bind: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        bind = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(bind.root)
 
-        val btn = findViewById<Button>(R.id.btnLogin)
-        val etUsername = findViewById<TextInputEditText>(R.id.TIETUsername)
-        val etPassword = findViewById<TextInputEditText>(R.id.TIETPassword)
+        auth=FirebaseAuth.getInstance()
 
-        val usernameLayout = findViewById<TextInputLayout>(R.id.username)
-        val passwordLayout = findViewById<TextInputLayout>(R.id.password)
-
-        val goToFAQ: TextView= findViewById(R.id.tvFaq)
-
-        btn.setOnClickListener {
-            val username = etUsername.text.toString()
-            val password = etPassword.text.toString()
+        bind.btnLogin.setOnClickListener {
+            val username = bind.TIETUsername.text.toString()
+            val password = bind.TIETPassword.text.toString()
             val bundle = Bundle()
             bundle.putString("USER_KEY",username)
             bundle.putString("PASS_KEY",password)
 
-            if (username.isBlank() || username.isEmpty()) {
-                usernameLayout.error = "Please enter a valid username"
+            if (username.isBlank()) {
+                bind.username.error = "Please enter a valid username"
             }
             if (password.isEmpty()) {
-                passwordLayout.error = "Please enter a valid password"
+                bind.password.error = "Please enter a valid password"
             }
-            if(password=="000"){
-                Toast.makeText(this@MainActivity, "Login Successful", Toast.LENGTH_SHORT).show()
+            //check if user exists
+            //if exists goto next screen
+            //if not create a user with mail id and password
+
+
+            if(checkFormDetails(username,password)){
+                /*Toast.makeText(this@MainActivity, "Login Successful", Toast.LENGTH_SHORT).show()
                 //intent.putExtra(Key,Value)
                 //intent.putExtra("USERNAME",username)
                 val intent=Intent(this@MainActivity,WelcomeActivity::class.java)
                 intent.putExtras(bundle)
-                startActivity(intent)
-            }
-            else{
-                Toast.makeText(this@MainActivity,"Incorrect Password",Toast.LENGTH_SHORT).show()
+                startActivity(intent)*/
+
+                auth.signInWithEmailAndPassword(username,password).addOnCompleteListener {signInTask ->
+                    if (signInTask.isSuccessful){
+                        Log.d("Login","Sign In Successfull")
+                    }else{
+                        Log.d("Login","${signInTask.exception}")
+                        auth.createUserWithEmailAndPassword(username,password).addOnCompleteListener { signUpTask ->
+                            if(signUpTask.isSuccessful){
+                                Log.d("Login","Sign Up Succesfull")
+                            }
+                            else{
+                                Log.d("Login","${signUpTask.exception}")
+                            }
+                        }
+                    }
+                }
             }
         }
-        goToFAQ.setOnClickListener{
+        bind.tvFaq.setOnClickListener{
             var url= "https://www.geeksforgeeks.org"
             var uri=Uri.parse(url)
             val implicitIntent=Intent(Intent.ACTION_VIEW,uri)
@@ -76,6 +93,9 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         //Display a toast that user has exit the activity.  
         super.onDestroy()
+    }
+    private fun checkFormDetails(username:String,password:String):Boolean{
+        return !(username.isBlank() || password.isEmpty())
     }
 }
 
